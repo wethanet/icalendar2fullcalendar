@@ -17,9 +17,7 @@
 
 <script>
 function data_req_listener () {
-    $('#calendar').fullCalendar({
-        events: ical2events(this.response)
-	});
+    $('#calendar').fullCalendar('addEventSource', ical2events(this.response))
 }
 
 function data_req (data_url) {
@@ -29,7 +27,11 @@ function data_req (data_url) {
     req.send()
 }
 
-data_req('events.ics')
+$(document).ready(function() {
+    $('#calendar').fullCalendar()
+    data_req('events.ics')
+    data_req('32c3.ics')
+})
 </script>
 
 
