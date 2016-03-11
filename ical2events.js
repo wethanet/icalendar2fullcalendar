@@ -3,6 +3,8 @@ function vevent2event(vevent) {
     event = {
         title:vevent.getFirstPropertyValue('summary'),
         start:vevent.getFirstPropertyValue('dtstart').toJSDate(),
+        url:vevent.getFirstPropertyValue('url'),
+        id:vevent.getFirstPropertyValue('uid'),
         allDay:false
     }
     try {
