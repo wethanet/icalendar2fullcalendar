@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+
+
+<link href='http://fullcalendar.io/js/fullcalendar-2.6.1/fullcalendar.css' rel='stylesheet' />
+<link href='http://fullcalendar.io/js/fullcalendar-2.6.1/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='http://fullcalendar.io/js/fullcalendar-2.6.1/lib/moment.min.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.6.1/lib/jquery.min.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.6.1/fullcalendar.min.js'></script>
+
+
+<script src="ical.js"></script>
+<script src="../ical2events.js"></script>
+
+
+<script>
+function data_req_listener () {
+    $('#calendar').fullCalendar({
+        events: ical2events(this.response)
+	});
+}
+
+function data_req (data_url) {
+    req = new XMLHttpRequest()
+    req.addEventListener('load', data_req_listener)
+    req.open('GET', data_url)
+    req.send()
+}
+
+data_req('events.ics')
+</script>
+
+
+<style>
+	#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+</style>
+</head>
+<body>
+	<div id='calendar'></div>
+</body>
+</html>
