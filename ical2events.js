@@ -1,23 +1,22 @@
-
 function vevent2event(vevent) {
-    event = {
+    e = {
         title:vevent.getFirstPropertyValue('summary'),
         url:vevent.getFirstPropertyValue('url'),
         id:vevent.getFirstPropertyValue('uid'),
         allDay:false
     }
     try {
-        event['start'] = vevent.getFirstPropertyValue('dtstart').toJSDate()
+        e['start'] = vevent.getFirstPropertyValue('dtstart').toJSDate()
     } catch (TypeError) {
         console.debug('Missing dtstart, vevent skipped.')
         return
     }
     try {
-        event['end'] = vevent.getFirstPropertyValue('dtend').toJSDate()
+        e['end'] = vevent.getFirstPropertyValue('dtend').toJSDate()
     } catch (TypeError) {
-        event['allDay'] = true
+        e['allDay'] = true
     }
-    return event
+    return e
 }
 
 function jcal2events(jcal) {
@@ -25,7 +24,10 @@ function jcal2events(jcal) {
     vcalendar = new ICAL.Component(jcal)
     vevents = vcalendar.getAllSubcomponents('vevent')
     for (i in vevents) {
-        events.push(vevent2event(vevents[i]))
+        e = vevent2event(vevents[i])
+        if (e) {
+            events.push(e)
+        }
     }
     return events
 }
