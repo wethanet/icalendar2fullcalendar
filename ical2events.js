@@ -2,10 +2,15 @@
 function vevent2event(vevent) {
     event = {
         title:vevent.getFirstPropertyValue('summary'),
-        start:vevent.getFirstPropertyValue('dtstart').toJSDate(),
         url:vevent.getFirstPropertyValue('url'),
         id:vevent.getFirstPropertyValue('uid'),
         allDay:false
+    }
+    try {
+        event['start'] = vevent.getFirstPropertyValue('dtstart').toJSDate()
+    } catch (TypeError) {
+        console.debug('Missing dtstart, vevent skipped.')
+        return
     }
     try {
         event['end'] = vevent.getFirstPropertyValue('dtend').toJSDate()
@@ -26,11 +31,13 @@ function jcal2events(jcal) {
 }
 
 function ical2events(ical) {
-    try {
-        return jcal2events(ICAL.parse(ical))
-    } catch (ReferenceError) {
-        console.error('Unable to call the ical library. Please include the script at https://raw.github.com/mozilla-comm/ical.js/master/build/ical.js.')
-    }
+    return jcal2events(ICAL.parse(ical))
+}
+
+try {
+    ICAL
+} catch (ReferenceError) {
+    console.error('Unable to call the ical library, ical2events wont work. Please include the script at https://raw.github.com/mozilla-comm/ical.js/master/build/ical.js.')
 }
 
 
