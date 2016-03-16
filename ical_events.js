@@ -30,6 +30,7 @@ function expand_recur_event(event, dtstart, dtend, event_callback) {
     duration = event_duration(event)
     while (! exp.complete && exp.next() < dtend) {
         if (exp.last >= dtstart) {
+            event = new ICAL.Component(event.toJSON())
             event.updatePropertyWithValue('dtstart', exp.last)
             event.updatePropertyWithValue('dtend', event_dtend(exp.last, duration))
             event_callback(event)
