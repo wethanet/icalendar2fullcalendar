@@ -17,8 +17,8 @@ function expand_recur_events(start, end, timezone, events_callback) {
     for (event of recur_events) {
         expand_recur_event(event, moment_icaltime(start, timezone), moment_icaltime(end, timezone), function(event){
             fc_event(event, function(event){
-                events.push(event)    
-            })
+                events.push(event)
+            }, ['recur-event'])
         })
     }
     events_callback(events)
@@ -38,12 +38,12 @@ function fc_events(ics) {
     return events
 }
 
-function fc_event(event, event_callback) {
+function fc_event(event, event_callback, class_list) {
     e = {
         title:event.getFirstPropertyValue('summary'),
         url:event.getFirstPropertyValue('url'),
         id:event.getFirstPropertyValue('uid'),
-        className:'event-'+an_filter(event.getFirstPropertyValue('uid')),
+        className:['event-'+an_filter(event.getFirstPropertyValue('uid'))].concat(class_list),
         allDay:false
     }
     try {
