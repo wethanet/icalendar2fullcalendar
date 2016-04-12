@@ -2,6 +2,11 @@
 
 recur_events = []
 
+function an_filter(string) {
+    // remove non alphanumeric chars
+    return string.replace(/[^\w\s]/gi, '')
+}
+
 function moment_icaltime(moment, timezone) {
     // TODO timezone
     return new ICAL.Time().fromJSDate(moment.toDate())
@@ -38,6 +43,7 @@ function fc_event(event, event_callback) {
         title:event.getFirstPropertyValue('summary'),
         url:event.getFirstPropertyValue('url'),
         id:event.getFirstPropertyValue('uid'),
+        className:'event-'+an_filter(event.getFirstPropertyValue('uid')),
         allDay:false
     }
     try {
