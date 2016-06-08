@@ -24,7 +24,7 @@ $(document).ready(function() {
             right: 'month,agendaWeek,agendaDay'
         },
         defaultView: 'month',
-	defaultDate: '2016-03-01'
+        defaultDate: '2016-03-01'
     })
     sources_to_load_cnt = ics_sources.length
     for (ics of ics_sources) {
