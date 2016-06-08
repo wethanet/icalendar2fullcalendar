@@ -1,4 +1,8 @@
-ics_sources = ['samples/events.ics','samples/32c3.ics','samples/daily_recur.ics']
+ics_sources = [
+    {url:'samples/events.ics',event_properties:{color:'gold'}},
+    {url:'samples/32c3.ics'},
+    {url:'samples/daily_recur.ics',event_properties:{className:['daily-recur'], url:'http://recurring.events.example.org/'}}
+]
 
 
 function data_req (url, callback) {
@@ -16,6 +20,13 @@ function add_recur_events() {
     }
 }
 
+function load_ics(ics){
+    data_req(ics.url, function(){
+        $('#calendar').fullCalendar('addEventSource', fc_events(this.response, ics.event_properties))
+        sources_to_load_cnt -= 1
+    })
+}
+
 $(document).ready(function() {
     $('#calendar').fullCalendar({
         header: {
@@ -28,10 +39,7 @@ $(document).ready(function() {
     })
     sources_to_load_cnt = ics_sources.length
     for (ics of ics_sources) {
-        data_req(ics, function(){
-            $('#calendar').fullCalendar('addEventSource', fc_events(this.response))
-            sources_to_load_cnt -= 1
-        })
+        load_ics(ics)
     }
     add_recur_events()
 })

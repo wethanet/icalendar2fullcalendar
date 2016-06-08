@@ -15,35 +15,51 @@ function moment_icaltime(moment, timezone) {
 function expand_recur_events(start, end, timezone, events_callback) {
     events = []
     for (event of recur_events) {
+	event_properties = event.event_properties
         expand_recur_event(event, moment_icaltime(start, timezone), moment_icaltime(end, timezone), function(event){
             fc_event(event, function(event){
-                events.push(event)
-            }, ['recur-event'])
+                events.push(merge_events(event_properties, merge_events({className:['recur-event']}, event)))
+            })
         })
     }
     events_callback(events)
 }
 
-function fc_events(ics) {
+function fc_events(ics, event_properties) {
     events = []
-    ical_events(ics,
+    ical_events(
+        ics,
         function(event){
             fc_event(event, function(event){
-                events.push(event)
+                events.push(merge_events(event_properties, event))
             })
         },
         function(event){
-            recur_events.push(event)      
-        })
+            event.event_properties = event_properties
+            recur_events.push(event)
+        }
+    )
     return events
 }
 
-function fc_event(event, event_callback, class_list) {
+function merge_events(e, f) {
+    // f has priority
+    for (k in e) {
+        if (k == 'className') {
+            f[k] = [].concat(f[k]).concat(e[k])
+        } else if (! f[k]) {
+            f[k] = e[k]
+        }
+    }
+    return f
+}
+
+function fc_event(event, event_callback) {
     e = {
         title:event.getFirstPropertyValue('summary'),
         url:event.getFirstPropertyValue('url'),
         id:event.getFirstPropertyValue('uid'),
-        className:['event-'+an_filter(event.getFirstPropertyValue('uid'))].concat(class_list),
+        className:['event-'+an_filter(event.getFirstPropertyValue('uid'))],
         allDay:false
     }
     try {
