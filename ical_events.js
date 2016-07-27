@@ -29,7 +29,7 @@ export function expand_recur_event(event, dtstart, dtend, event_callback) {
         component:event,
         dtstart:event.getFirstPropertyValue('dtstart')
     })
-    duration = event_duration(event)
+    var duration = event_duration(event)
     while (! exp.complete && exp.next() < dtend) {
         if (exp.last >= dtstart) {
             event = new ICAL.Component(event.toJSON())

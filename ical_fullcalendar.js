@@ -78,5 +78,3 @@ export function fc_event(event, event_callback) {
     }
     event_callback(e)
 }
-
-module.exports = exports;

@@ -14,7 +14,7 @@ function data_req (url, callback) {
 
 function add_recur_events() {
     if (sources_to_load_cnt < 1) {
-        $('#calendar').fullCalendar('addEventSource', expand_recur_events)
+        $('#calendar').fullCalendar('addEventSource', ical2fullcalendar.expand_recur_events)
     } else {
         setTimeout(add_recur_events, 30)
     }
@@ -22,7 +22,7 @@ function add_recur_events() {
 
 function load_ics(ics){
     data_req(ics.url, function(){
-        $('#calendar').fullCalendar('addEventSource', fc_events(this.response, ics.event_properties))
+        $('#calendar').fullCalendar('addEventSource', ical2fullcalendar.fc_events(this.response, ics.event_properties))
         sources_to_load_cnt -= 1
     })
 }
@@ -43,4 +43,3 @@ $(document).ready(function() {
     }
     add_recur_events()
 })
-
