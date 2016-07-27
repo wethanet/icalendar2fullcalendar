@@ -1,18 +1,21 @@
-// Depends on ./ical_events.js
+import {
+	ical_events,
+	expand_recur_event
+} from './ical_events.js';
 
-recur_events = []
+var recur_events = [];
 
-function an_filter(string) {
+export function an_filter(string) {
     // remove non alphanumeric chars
     return string.replace(/[^\w\s]/gi, '')
 }
 
-function moment_icaltime(moment, timezone) {
+export function moment_icaltime(moment, timezone) {
     // TODO timezone
     return new ICAL.Time().fromJSDate(moment.toDate())
 }
 
-function expand_recur_events(start, end, timezone, events_callback) {
+export function expand_recur_events(start, end, timezone, events_callback) {
     events = []
     for (event of recur_events) {
 	event_properties = event.event_properties
@@ -25,7 +28,7 @@ function expand_recur_events(start, end, timezone, events_callback) {
     events_callback(events)
 }
 
-function fc_events(ics, event_properties) {
+export function fc_events(ics, event_properties) {
     events = []
     ical_events(
         ics,
@@ -42,7 +45,7 @@ function fc_events(ics, event_properties) {
     return events
 }
 
-function merge_events(e, f) {
+export function merge_events(e, f) {
     // f has priority
     for (k in e) {
         if (k == 'className') {
@@ -54,7 +57,7 @@ function merge_events(e, f) {
     return f
 }
 
-function fc_event(event, event_callback) {
+export function fc_event(event, event_callback) {
     e = {
         title:event.getFirstPropertyValue('summary'),
         url:event.getFirstPropertyValue('url'),
@@ -76,3 +79,4 @@ function fc_event(event, event_callback) {
     event_callback(e)
 }
 
+module.exports = exports;

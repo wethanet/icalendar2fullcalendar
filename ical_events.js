@@ -1,10 +1,12 @@
 // Depends on https://raw.github.com/mozilla-comm/ical.js/master/build/ical.js
 
-function ical_events(ical, event_callback, recur_event_callback) {
+import ICAL from 'ical.js';
+
+export function ical_events(ical, event_callback, recur_event_callback) {
     jcal_events(ICAL.parse(ical), event_callback, recur_event_callback)
 }
 
-function jcal_events(jcal, event_callback, recur_event_callback) {
+export function jcal_events(jcal, event_callback, recur_event_callback) {
     for (event of new ICAL.Component(jcal).getAllSubcomponents('vevent')) {
         if (event.hasProperty('rrule')) {
             recur_event_callback(event)
@@ -14,15 +16,15 @@ function jcal_events(jcal, event_callback, recur_event_callback) {
     }
 }
 
-function event_duration(event) {
+export function event_duration(event) {
     return new Date(event.getFirstPropertyValue('dtend').toJSDate() - event.getFirstPropertyValue('dtstart').toJSDate()).getTime()
 }
 
-function event_dtend(dtstart, duration) {
+export function event_dtend(dtstart, duration) {
     return new ICAL.Time().fromJSDate(new Date(dtstart.toJSDate().getTime() + duration))
 }
 
-function expand_recur_event(event, dtstart, dtend, event_callback) {
+export function expand_recur_event(event, dtstart, dtend, event_callback) {
     exp = new ICAL.RecurExpansion({
         component:event,
         dtstart:event.getFirstPropertyValue('dtstart')
@@ -37,4 +39,3 @@ function expand_recur_event(event, dtstart, dtend, event_callback) {
         }
     }
 }
-
