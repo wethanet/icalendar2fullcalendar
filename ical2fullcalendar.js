@@ -29,7 +29,7 @@ function event_dtend(dtstart, duration) {
 }
 
 function expand_recur_event(event, dtstart, dtend, event_callback) {
-    exp = new ICAL$1.RecurExpansion({
+    var exp = new ICAL$1.RecurExpansion({
         component:event,
         dtstart:event.getFirstPropertyValue('dtstart')
     })
@@ -57,9 +57,9 @@ function moment_icaltime(moment, timezone) {
 }
 
 function expand_recur_events(start, end, timezone, events_callback) {
-    events = []
+    var events = []
     for (event of recur_events) {
-	event_properties = event.event_properties
+	var event_properties = event.event_properties
         expand_recur_event(event, moment_icaltime(start, timezone), moment_icaltime(end, timezone), function(event){
             fc_event(event, function(event){
                 events.push(merge_events(event_properties, merge_events({className:['recur-event']}, event)))
@@ -70,7 +70,7 @@ function expand_recur_events(start, end, timezone, events_callback) {
 }
 
 function fc_events(ics, event_properties) {
-    events = []
+    var events = []
     ical_events(
         ics,
         function(event){
@@ -88,18 +88,18 @@ function fc_events(ics, event_properties) {
 
 function merge_events(e, f) {
     // f has priority
-    for (k in e) {
+    for (var k in e) {
         if (k == 'className') {
             f[k] = [].concat(f[k]).concat(e[k])
         } else if (! f[k]) {
             f[k] = e[k]
         }
     }
-    return f
+    return f;
 }
 
 function fc_event(event, event_callback) {
-    e = {
+    var e = {
         title:event.getFirstPropertyValue('summary'),
         url:event.getFirstPropertyValue('url'),
         id:event.getFirstPropertyValue('uid'),

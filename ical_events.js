@@ -25,7 +25,7 @@ export function event_dtend(dtstart, duration) {
 }
 
 export function expand_recur_event(event, dtstart, dtend, event_callback) {
-    exp = new ICAL.RecurExpansion({
+    var exp = new ICAL.RecurExpansion({
         component:event,
         dtstart:event.getFirstPropertyValue('dtstart')
     })
