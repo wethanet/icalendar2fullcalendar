@@ -4,14 +4,19 @@
   "description": "Convert iCalendar ics to FullCalendar json using ical.js",
   "main": "ical2fullcalendar.js",
   "scripts": {
-	"rollup": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jacobmischka/icalendar2fullcalendar.git"
   },
-  "author": "",
+  "files": [
+    "ical2fullcalendar.js"
+  ],
+  "author": "2733 (https://github.com/2733)",
+  "contributors": [
+    "Jacob Mischka <jacob@mischka.me>"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jacobmischka/icalendar2fullcalendar/issues"
