@@ -1,5 +1,5 @@
 {
-  "name": "icalendar2fullcalendar",
+  "name": "@jacobmischka/icalendar2fullcalendar",
   "version": "1.0.1",
   "description": "Convert iCalendar ics to FullCalendar json using ical.js",
   "main": "ical2fullcalendar.js",
