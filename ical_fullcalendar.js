@@ -62,6 +62,7 @@ export function fc_event(event, event_callback) {
         title:event.getFirstPropertyValue('summary'),
         url:event.getFirstPropertyValue('url'),
         id:event.getFirstPropertyValue('uid'),
+	description:event.getFirstPropertyValue('description'),
         className:['event-'+an_filter(event.getFirstPropertyValue('uid'))],
         allDay:false
     }
